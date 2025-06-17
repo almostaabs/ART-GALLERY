@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order History | AARTI'S ART GALLERY</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <style>
+    .order-history-container {
+      max-width: 800px;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 5px 25px rgba(183, 123, 91, 0.1);
+      padding: 40px 32px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .order-history-header {
+      color: #b77b5b;
+      font-size: 2rem;
+      margin-bottom: 28px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+    .order-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .order-list li {
+      background: #fbf5ff;
+      margin-bottom: 16px;
+      padding: 18px 22px;
+      border-radius: 12px;
+      color: #5d4c41;
+      font-size: 1rem;
+      box-shadow: 0 2px 8px rgba(183, 123, 91, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .order-list li strong {
+      color: #b77b5b;
+    }
+    .order-date {
+      font-size: 0.95rem;
+      color: #8d5a3a;
+      margin-left: 12px;
+    }
+    .empty-msg {
+      color: #aaa;
+      font-style: italic;
+      margin-bottom: 8px;
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <h1 class="logo" style="margin: 3px;">
+        <a href="index.html" style="display:inline-block;">
+          <img src="images/aarti-logo.png" alt="AARTI'S ART GALLERY" style="height: 40px;">
+        </a>
+      </h1>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="account.html">Account</a></li>
+        <li><a href="order_history.html" class="active">Order History</a></li>
+        <li><a href="add_painting.html">Add Painting</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="order-history-container">
+    <div class="order-history-header">Order History</div>
+    <ul class="order-list" id="orderList"></ul>
+    <div class="empty-msg" id="noOrdersMsg" style="display:none;">No orders yet.</div>
+  </main>
+
+  <footer>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+    <p>&copy; 2025 AARTI'S ART GALLERY. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Show order history for the logged-in user
+    const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+    if (!user) {
+      window.location.href = 'login.html';
+    }
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]')
+      .filter(order => order.email === user.email);
+    const orderList = document.getElementById('orderList');
+    const noOrdersMsg = document.getElementById('noOrdersMsg');
+    if (orders.length === 0) {
+      noOrdersMsg.style.display = 'block';
+    } else {
+      noOrdersMsg.style.display = 'none';
+      orders.forEach(order => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <div>
+            <strong>${order.item}</strong> - ₹${order.price}<br>
+            Order #${order.id}
+          </div>
+          <span class="order-date">${order.date}</span>
+        `;
+        orderList.appendChild(li);
+      });
+    }
+  </script>
+  <script>
+    // Hide "Add Painting" link for non-admins
+    document.addEventListener('DOMContentLoaded', function() {
+      const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+      const addPaintingLink = document.querySelector('a[href="add_painting.html"]');
+      if (addPaintingLink && (!user || user.email.toLowerCase() !== 'abhyuday@gmail.com')) {
+        addPaintingLink.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home | AARTI'S ART GALLARY</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body { background: #181818; color: #fff; font-family: 'Segoe UI', Arial, sans-serif; }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px 40px 20px;
+      background: linear-gradient(120deg, #232526 0%, #414345 100%);
+    }
+    .hero img {
+      max-width: 180px;
+      margin-bottom: 24px;
+    }
+    .hero h1 { font-size: 2.8rem; margin-bottom: 10px; }
+    .hero p { font-size: 1.3rem; margin-bottom: 24px; color: #e0cfc2; }
+    .hero .cta-btn {
+      background: #b77b5b;
+      color: #fff;
+      border: none;
+      padding: 14px 38px;
+      border-radius: 28px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+      margin-top: 10px;
+      display: inline-block;
+    }
+    .hero .cta-btn:hover { background: #a05e3b; }
+
+    .about-section, .testimonials, .events, .newsletter, .gallery-preview, .contact-section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .about-section h2, .testimonials h2, .events h2, .newsletter h2, .gallery-preview h2, .contact-section h2 {
+      color: #b77b5b;
+      margin-bottom: 12px;
+    }
+    .about-section p { color: #e0cfc2; }
+    .about-section a { color: #b77b5b; text-decoration: underline; }
+
+    .featured-artworks {
+      display: flex;
+      gap: 28px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 40px 0 0 0;
+    }
+    .featured-artwork {
+      background: #222;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      padding: 18px 12px 12px 12px;
+      max-width: 220px;
+      text-align: center;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .featured-artwork img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .featured-artwork h3 { margin: 0 0 6px 0; color: #fff; }
+    .featured-artwork p { color: #b0b0b0; margin: 0 0 8px 0; font-size: 1rem; }
+    .featured-artwork a {
+      color: #b77b5b;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .featured-artwork:hover {
+      box-shadow: 0 8px 24px rgba(183,123,91,0.18);
+      transform: translateY(-6px) scale(1.03);
+    }
+
+    .testimonials {
+      background: #232526;
+      border-radius: 14px;
+      padding: 28px 18px;
+      margin-top: 40px;
+    }
+    .testimonial-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+    }
+    .testimonial {
+      background: #181818;
+      border-radius: 10px;
+      padding: 16px 18px;
+      max-width: 320px;
+      color: #e0cfc2;
+      font-style: italic;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .testimonial .author { font-weight: bold; color: #b77b5b; margin-top: 8px; display: block; }
+
+    .events ul { color: #e0cfc2; }
+    .newsletter form {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .newsletter input[type="email"] {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #e0cfc2;
+      font-size: 1rem;
+    }
+    .newsletter button {
+      background: #b77b5b;
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .newsletter button:hover { background: #a05e3b; }
+
+    .gallery-preview-grid {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      justify-content: center;
+    }
+    .gallery-preview-grid img {
+      width: 120px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      transition: transform 0.2s;
+    }
+    .gallery-preview-grid img:hover { transform: scale(1.07); }
+
+    .social-links {
+      margin: 30px 0 0 0;
+      text-align: center;
+    }
+    .social-links a {
+      color: #b77b5b;
+      font-size: 2rem;
+      margin: 0 12px;
+      transition: color 0.2s;
+    }
+    .social-links a:hover { color: #fff; }
+
+    .contact-section form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+      max-width: 400px;
+    }
+    .contact-section input, .contact-section textarea {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #e0cfc2;
+      font-size: 1rem;
+      background: #232526;
+      color: #fff;
+    }
+    .contact-section button {
+      background: #b77b5b;
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .contact-section button:hover { background: #a05e3b; }
+    @media (max-width: 700px) {
+      .featured-artworks, .testimonial-list, .gallery-preview-grid { flex-direction: column; align-items: center; }
+      .hero img { max-width: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+  const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+  const addPaintingLink = document.querySelector('a[href="add_painting.html"]');
+if (addPaintingLink && (!user || user.email !== 'admin@gmail.com')) {
+    addPaintingLink.style.display = 'none';
+  }
+</script>
+  <header>
+    <nav class="navbar">
+      <h1 class="logo" style="margin:0;">
+        <a href="index.html" style="display:inline-block;">
+          <img src="images/aarti-logo.png" alt="AARTI'S ART GALLARY" style="height:110px; vertical-align:middle;">
+        </a>
+      </h1>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="add_painting.html">Add Painting</a></li>
+        <li><a href="account.html">Account</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <img src="images/aarti-logo.png" alt="AARTI'S ART GALLARY">
+    <h1>Welcome to AARTI'S ART GALLARY</h1>
+    <p>Discover unique, original artworks that inspire and delight. Explore the creative world of Aarti and bring home a masterpiece today.</p>
+    <a href="gallery.html" class="cta-btn">View Gallery</a>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section">
+    <h2>About the Artist</h2>
+    <p>
+      Aarti is a passionate artist whose works blend color, emotion, and imagination. With a love for both traditional and modern styles, her art captures the beauty of everyday life and the wonders of the abstract. <a href="about.html">Read more &rarr;</a>
+    </p>
+  </section>
+
+  <!-- Featured Artworks -->
+  <section class="featured-artworks">
+    <div class="featured-artwork">
+      <img src="images/art1.jpg" alt="Serenity">
+      <h3>Serenity</h3>
+      <p>Acrylic • 2024</p>
+      <a href="buy.html?id=1">Buy Now</a>
+    </div>
+    <div class="featured-artwork">
+      <img src="images/art2.jpg" alt="Urban Dreams">
+      <h3>Urban Dreams</h3>
+      <p>Mixed media • 2023</p>
+      <a href="buy.html?id=2">Buy Now</a>
+    </div>
+    <div class="featured-artwork">
+      <img src="images/art3.jpg" alt="Whispers">
+      <h3>Whispers</h3>
+      <p>Oil painting • 2024</p>
+      <a href="buy.html?id=3">Buy Now</a>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <h2>What Collectors Say</h2>
+    <div class="testimonial-list">
+      <div class="testimonial">
+        "Aarti's paintings bring so much color and joy to my home. Every piece tells a story!"
+        <span class="author">- Priya S.</span>
+      </div>
+      <div class="testimonial">
+        "The quality and originality are unmatched. I get compliments from every visitor."
+        <span class="author">- Rahul M.</span>
+      </div>
+      <div class="testimonial">
+        "Buying from Aarti was a wonderful experience. The artwork arrived safely and looks stunning."
+        <span class="author">- Meera K.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Events/News -->
+  <section class="events">
+    <h2>Upcoming Events</h2>
+    <ul>
+      <li><strong>July 20, 2025:</strong> Live Painting Workshop (Online)</li>
+      <li><strong>August 15, 2025:</strong> Group Exhibition at City Art Gallery</li>
+      <li><strong>September 5, 2025:</strong> New Collection Launch</li>
+    </ul>
+  </section>
+
+  <!-- Newsletter Signup -->
+  <section class="newsletter">
+    <h2>Stay Updated</h2>
+    <form onsubmit="event.preventDefault(); alert('Thank you for subscribing!'); this.reset();">
+      <input type="email" placeholder="Your email address" required>
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <!-- Gallery Preview -->
+  <section class="gallery-preview">
+    <h2>Gallery Preview</h2>
+    <div class="gallery-preview-grid">
+      <a href="gallery.html"><img src="images/art1.jpg" alt="Preview 1"></a>
+      <a href="gallery.html"><img src="images/art2.jpg" alt="Preview 2"></a>
+      <a href="gallery.html"><img src="images/art3.jpg" alt="Preview 3"></a>
+      <a href="gallery.html"><img src="images/art4.jpg" alt="Preview 4"></a>
+    </div>
+  </section>
+
+  <!-- Social Links -->
+  <div class="social-links">
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+  </div>
+
+  <!-- Contact Section -->
+  <section class="contact-section">
+    <h2>Contact</h2>
+    <form onsubmit="event.preventDefault(); alert('Thank you for your message!'); this.reset();">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="3" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    <p style="text-align:center;">&copy; 2025 AARTI'S ART GALLARY. All rights reserved.</p>
+  </footer>
+  <script>
+// Hide "Add Painting" link for non-admins
+document.addEventListener('DOMContentLoaded', function() {
+  const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+  const addPaintingLink = document.querySelector('a[href="add_painting.html"]');
+  if (addPaintingLink && (!user || user.email.toLowerCase() !== 'admin@gmail.com')) {
+    addPaintingLink.style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>

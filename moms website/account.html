@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Account | AARTI'S ART GALLERY</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .account-container {
+      max-width: 800px;
+      margin: 60px auto;
+      background: rgba(255,255,255,0.98);
+      border-radius: 18px;
+      box-shadow: 0 5px 25px rgba(183, 123, 91, 0.1);
+      padding: 40px 32px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .account-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      border-bottom: 1px solid #f0e6ff;
+      padding-bottom: 20px;
+    }
+    .account-header h2 {
+      color: #b77b5b;
+      font-size: 2.2rem;
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .logout-btn {
+      background: linear-gradient(to right, #b77b5b, #ffb347);
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(183, 123, 91, 0.3);
+    }
+    .logout-btn:hover { 
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(183, 123, 91, 0.4);
+    }
+    .account-section {
+      margin-bottom: 36px;
+    }
+    .account-section h3 {
+      color: #b77b5b;
+      margin-bottom: 16px;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .account-section h3 i {
+      font-size: 1.1rem;
+    }
+    .order-list, .address-list, .payment-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .order-list li, .address-list li, .payment-list li {
+      background: #fbf5ff;
+      margin-bottom: 12px;
+      padding: 16px 20px;
+      border-radius: 12px;
+      color: #5d4c41;
+      font-size: 1rem;
+      box-shadow: 0 2px 8px rgba(183, 123, 91, 0.08);
+      transition: transform 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .order-list li:hover, .address-list li:hover, .payment-list li:hover {
+      transform: translateX(5px);
+      background: #f9f0ff;
+    }
+    .account-info {
+      margin-bottom: 20px;
+      color: #6d4c41;
+      line-height: 1.6;
+    }
+    .add-btn {
+      background: linear-gradient(to right, #ffb347, #b77b5b);
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(183, 123, 91, 0.2);
+    }
+    .add-btn:hover { 
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(183, 123, 91, 0.3);
+    }
+    .empty-msg {
+      color: #aaa;
+      font-style: italic;
+      margin-bottom: 8px;
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .order-status {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .status-completed {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    .status-pending {
+      background: #fff8e1;
+      color: #ff8f00;
+    }
+    .status-cancelled {
+      background: #ffebee;
+      color: #c62828;
+    }
+    .account-tabs {
+      display: flex;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #f0e6ff;
+    }
+    .account-tab {
+      padding: 12px 20px;
+      cursor: pointer;
+      color: #b77b5b;
+      font-weight: 600;
+      position: relative;
+    }
+    .account-tab.active {
+      color: #8d5a3a;
+    }
+    .account-tab.active:after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(to right, #b77b5b, #ffb347);
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffb347, #b77b5b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      margin-right: 20px;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    .user-details h3 {
+      margin: 0 0 5px 0;
+      color: #5d4c41;
+      font-size: 1.4rem;
+    }
+    .user-details p {
+      margin: 0;
+      color: #8d5a3a;
+    }
+    .logo img {
+      max-height: 110px;
+      height: auto;
+      display: block;
+    }
+    .logo, .navbar h1 {
+      color: #fff !important;
+      opacity: 1 !important;
+    }
+    .logo a {
+      color: #fff !important;
+      opacity: 1 !important;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <h1 class="logo" style="margin: 3px;">
+        <a href="index.html" style="display:inline-block;">
+          <img src="images/aarti-logo.png" alt="AARTI'S ART GALLERY" style="height: 40px;">
+        </a>
+      </h1>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="account.html" class="active">Account</a></li>
+        <li><a href="add-painting.html">Add Painting</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="account-container">
+    <div class="account-header">
+      <h2><i class="fas fa-user-circle"></i> My Account</h2>
+      <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+    </div>
+
+    <div class="user-info">
+      <div class="user-avatar" id="userAvatar">A</div>
+      <div class="user-details">
+        <h3 id="userName"></h3>
+        <p>Member since 2025</p>
+      </div>
+    </div>
+
+    <div class="account-tabs">
+      <div class="account-tab active" data-tab="orders">Orders</div>
+      <div class="account-tab" data-tab="addresses">Addresses</div>
+      <div class="account-tab" data-tab="payments">Payment Methods</div>
+      <div class="account-tab" data-tab="settings">Account Settings</div>
+    </div>
+
+    <div class="tab-content active" id="orders">
+      <div class="account-section">
+  <h3><i class="fas fa-palette"></i> Order History</h3>
+  <ul class="order-list" id="orderList"></ul>
+  <div class="empty-msg" id="noOrdersMsg" style="display:none;">No orders yet.</div>
+  <button class="add-btn" onclick="window.location.href='order_history.html'">
+    <i class="fas fa-history"></i> View Full Order History
+  </button>
+</div>
+    </div>
+
+    <div class="tab-content" id="addresses">
+      <div class="account-section">
+        <h3><i class="fas fa-map-marker-alt"></i> Saved Addresses</h3>
+        <ul class="address-list">
+          <li>
+            <strong>Primary Address</strong><br>
+            123 Art Lane, Creative District<br>
+            Mumbai, Maharashtra 400001<br>
+            Phone: +91 98765 43210
+          </li>
+          <li>
+            <strong>Studio Address</strong><br>
+            45 Canvas Street, Artist Colony<br>
+            Pune, Maharashtra 411001<br>
+            Phone: +91 87654 32109
+          </li>
+        </ul>
+        <button class="add-btn"><i class="fas fa-plus"></i> Add New Address</button>
+      </div>
+    </div>
+
+    <div class="tab-content" id="payments">
+      <div class="account-section">
+        <h3><i class="far fa-credit-card"></i> Payment Methods</h3>
+        <ul class="payment-list">
+          <li>
+            <i class="fab fa-cc-visa"></i> Visa ending in 4242<br>
+            Expires 05/2026
+          </li>
+          <li>
+            <i class="fas fa-wallet"></i> UPI: aarti.art@upi
+          </li>
+        </ul>
+        <button class="add-btn"><i class="fas fa-plus"></i> Add Payment Method</button>
+      </div>
+    </div>
+
+    <div class="tab-content" id="settings">
+      <div class="account-section">
+        <h3><i class="fas fa-cog"></i> Account Settings</h3>
+        <div class="account-info">
+          <p><strong>Email:</strong> <span id="userEmail"></span></p>
+          <p><strong>Phone:</strong> +91 98765 43210</p>
+          <p><strong>Password:</strong> ********</p>
+        </div>
+        <button class="add-btn"><i class="fas fa-pencil-alt"></i> Edit Profile</button>
+        <button class="add-btn"><i class="fas fa-lock"></i> Change Password</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+    <p>&copy; 2025 AARTI'S ART GALLERY. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Tab functionality
+    document.querySelectorAll('.account-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.account-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        const tabId = tab.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // User info and order history
+    const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+    if (!user) {
+      window.location.href = 'login.html';
+    } else {
+      document.getElementById('userName').textContent = user.name || '';
+      document.getElementById('userEmail').textContent = user.email || '';
+      document.getElementById('userAvatar').textContent = user.name ? user.name[0].toUpperCase() : 'U';
+    }
+
+    // Show order history (only orders placed by this user)
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]')
+      .filter(order => order.email === user.email);
+    const orderList = document.getElementById('orderList');
+    const noOrdersMsg = document.getElementById('noOrdersMsg');
+    if (orders.length === 0) {
+      noOrdersMsg.style.display = 'block';
+    } else {
+      noOrdersMsg.style.display = 'none';
+      orders.forEach(order => {
+        const li = document.createElement('li');
+        li.innerHTML = `<div>
+          <strong>${order.item}</strong><br>
+          Order #${order.id} - ${order.date}
+        </div>
+        <span class="order-status status-completed">Completed</span>`;
+        orderList.appendChild(li);
+      });
+    }
+
+    // Logout functionality
+    document.querySelector('.logout-btn').addEventListener('click', function() {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'login.html';
+    });
+  </script>
+    <script>
+// Hide "Add Painting" link for non-admins
+document.addEventListener('DOMContentLoaded', function() {
+  const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+  const addPaintingLink = document.querySelector('a[href="add_painting.html"]');
+  if (addPaintingLink && (!user || user.email.toLowerCase() !== 'admin@gmail.com')) {
+    addPaintingLink.style.display = 'none';
+  }
+});
+</script>

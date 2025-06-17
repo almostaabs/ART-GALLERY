@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add New Painting | AARTI'S ART GALLARY</title>
+  <link rel="stylesheet" href="style/style.css" />
+</head>
+<body>
+  <script>
+  // Only allow admin@example.com to access this page
+  const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+if (!user || user.email !== 'admin@gmail.com') {
+    alert('Access denied. Admins only.');
+    window.location.href = 'index.html';
+  }
+</script>
+  <header>
+    <nav class="navbar">
+       <h1 class="logo" style="margin:0;">
+        <a href="index.html" style="display:inline-block;">
+          <img src="images/aarti-logo.png" alt="AARTI'S ART GALLARY" style="height:110px; vertical-align:middle;">
+        </a>
+      </h1>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="add_painting.html">Add Painting</a></li>
+        <li><a href="account.html" class="active">Account</a></li>
+      </ul>
+    <!-- ...navbar code... -->
+  </header>
+
+  <section class="add-painting">
+    <h2>Add New Painting</h2>
+    <form id="addPaintingForm">
+      <input type="text" name="name" placeholder="Painting Name" required>
+      <input type="text" name="medium" placeholder="Medium (e.g. Acrylic)" required>
+      <input type="text" name="style" placeholder="Style (e.g. Abstract)" required>
+      <input type="text" name="size" placeholder="Size (e.g. Large)" required>
+      <input type="number" name="cost" placeholder="Cost (USD)" required>
+      <input type="file" name="image" accept="image/*" required>
+      <button type="submit">Add Painting</button>
+    </form>
+    <script>
+document.getElementById('addPaintingForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const reader = new FileReader();
+  const file = form.image.files[0];
+
+  reader.onload = function(event) {
+    // Get existing paintings or empty array
+    // In your add painting script
+  const paintings = JSON.parse(localStorage.getItem('paintings') || '[]');
+  paintings.push({
+    id: Date.now(), // Unique ID for each painting
+    name: form.name.value,
+    medium: form.medium.value,
+    style: form.style.value,
+    size: form.size.value,
+    cost: form.cost.value,
+    year: form.year ? form.year.value : '2025', // Add year if you have it
+    image: event.target.result
+});
+localStorage.setItem('paintings', JSON.stringify(paintings));
+    alert('Painting added!');
+    form.reset();
+  };
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+});
+</script>
+  </section>
+
+  <footer>
+    <!-- ...footer code... -->
+  </footer>
+</body>
+</html>

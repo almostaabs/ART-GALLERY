@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery | AARTI'S ART GALLARY</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <script>
+  const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+  const addPaintingLink = document.querySelector('a[href="add_painting.html"]');
+if (addPaintingLink && (!user || user.email !== 'admin@gmail.com')) {
+    addPaintingLink.style.display = 'none';
+  }
+</script>
+  <header>
+    <nav class="navbar">
+       <h1 class="logo" style="margin:0;">
+        <a href="index.html" style="display:inline-block;">
+          <img src="images/aarti-logo.png" alt="AARTI'S ART GALLARY" style="height:110px; vertical-align:middle;">
+        </a>
+      </h1>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="add_painting.html">Add Painting</a></li>
+        <li><a href="account.html" class="active">Account</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Search and Filter Bar -->
+  <section class="gallery-search">
+    <form id="searchForm">
+      <input type="text" id="searchInput" placeholder="Search paintings by name..." />
+
+      <select id="mediumFilter">
+        <option value="">All Mediums</option>
+        <option value="Acrylic">Acrylic</option>
+        <option value="Watercolor">Watercolor</option>
+        <option value="Oil">Oil</option>
+      </select>
+
+      <select id="styleFilter">
+        <option value="">All Styles</option>
+        <option value="Abstract">Abstract</option>
+        <option value="Realism">Realism</option>
+        <option value="Impressionism">Impressionism</option>
+      </select>
+
+      <select id="sizeFilter">
+        <option value="">All Sizes</option>
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Large">Large</option>
+      </select>
+
+      <select id="costFilter">
+        <option value="">All Costs</option>
+        <option value="0-100">$0 - $100</option>
+        <option value="101-500">$101 - $500</option>
+        <option value="501-1000">$501 - $1000</option>
+      </select>
+
+      <select id="sortFilter">
+        <option value="default">Sort By</option>
+        <option value="name">Name</option>
+        <option value="costLowHigh">Cost: Low to High</option>
+        <option value="costHighLow">Cost: High to Low</option>
+      </select>
+
+      <button type="submit">Search</button>
+      <button type="button" id="clearFilters" style="margin-left:10px;">Clear</button>
+    </form>
+  </section>
+
+  <section class="gallery-section">
+    <div class="gallery-header">
+      <h2>My Artworks</h2>
+      <p class="gallery-subtitle">A collection of my finest creations</p>
+    </div>
+    <div class="gallery-grid" id="staticGallery">
+      <a href="buy.html?id=1" class="painting-card-link" 
+         data-name="Serenity" data-medium="Acrylic" data-style="Abstract" data-size="Large" data-cost="350">
+        <div class="painting-card" data-id="1">
+          <img src="images/art1.jpg" alt="Serenity">
+          <div class="painting-card-body">
+            <h3>Serenity</h3>
+            <p class="painting-subtitle">Acrylic • 2024</p>
+          </div>
+        </div>
+      </a>
+      <a href="buy.html?id=2" class="painting-card-link" 
+         data-name="Urban Dreams" data-medium="Mixed media" data-style="Modern" data-size="Medium" data-cost="250">
+        <div class="painting-card" data-id="2">
+          <img src="images/art2.jpg" alt="Urban Dreams">
+          <div class="painting-card-body">
+            <h3>Urban Dreams</h3>
+            <p class="painting-subtitle">Mixed media • 2023</p>
+          </div>
+        </div>
+      </a>
+      <a href="buy.html?id=3" class="painting-card-link" 
+         data-name="Whispers" data-medium="Oil painting" data-style="Expressionism" data-size="Small" data-cost="400">
+        <div class="painting-card" data-id="3">
+          <img src="images/art3.jpg" alt="Whispers">
+          <div class="painting-card-body">
+            <h3>Whispers</h3>
+            <p class="painting-subtitle">Oil painting • 2024</p>
+          </div>
+        </div>
+      </a>
+      <!-- Add more art cards as needed, with data-* attributes -->
+    </div>
+    <div class="paintings-container"></div>
+    <script>
+    function renderGallery() {
+      const container = document.querySelector('.paintings-container');
+      container.innerHTML = '';
+      const paintings = JSON.parse(localStorage.getItem('paintings') || '[]');
+      paintings.forEach((p) => {
+        const id = p.id;
+        const subtitle = `${p.medium} • ${p.year || '2025'}`;
+        const card = document.createElement('a');
+        card.href = `buy.html?id=${id}`;
+        card.className = 'painting-card-link';
+        card.setAttribute('data-name', p.name || '');
+        card.setAttribute('data-medium', p.medium || '');
+        card.setAttribute('data-style', p.style || '');
+        card.setAttribute('data-size', p.size || '');
+        card.setAttribute('data-cost', p.cost || '');
+        card.innerHTML = `
+          <div class="painting-card" data-id="${id}">
+            <img src="${p.image}" alt="${p.name}">
+            <div class="painting-card-body">
+              <h3>${p.name}</h3>
+              <p class="painting-subtitle">${subtitle}</p>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+    renderGallery();
+
+    // Filtering and search
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const medium = document.getElementById('mediumFilter').value;
+      const style = document.getElementById('styleFilter').value;
+      const size = document.getElementById('sizeFilter').value;
+      const cost = document.getElementById('costFilter').value;
+
+      // Get all painting cards (static and dynamic)
+      const cards = document.querySelectorAll('.painting-card-link');
+
+      cards.forEach(card => {
+        let show = true;
+
+        // Search by name
+        const name = (card.getAttribute('data-name') || '').toLowerCase();
+        if (search && !name.includes(search)) show = false;
+
+        // Filter by medium
+        const cardMedium = (card.getAttribute('data-medium') || '');
+        if (medium && cardMedium !== medium) show = false;
+
+        // Filter by style
+        const cardStyle = (card.getAttribute('data-style') || '');
+        if (style && cardStyle !== style) show = false;
+
+        // Filter by size
+        const cardSize = (card.getAttribute('data-size') || '');
+        if (size && cardSize !== size) show = false;
+
+        // Filter by cost
+        const cardCost = parseFloat(card.getAttribute('data-cost') || '0');
+        if (cost) {
+          const [min, max] = cost.split('-').map(Number);
+          if (isNaN(cardCost) || cardCost < min || cardCost > max) show = false;
+        }
+
+        card.style.display = show ? '' : 'none';
+      });
+    });
+
+    // Clear button functionality
+    document.getElementById('clearFilters').addEventListener('click', function() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('mediumFilter').selectedIndex = 0;
+      document.getElementById('styleFilter').selectedIndex = 0;
+      document.getElementById('sizeFilter').selectedIndex = 0;
+      document.getElementById('costFilter').selectedIndex = 0;
+      document.getElementById('sortFilter').selectedIndex = 0;
+
+      // Show all cards
+      document.querySelectorAll('.painting-card-link').forEach(card => {
+        card.style.display = '';
+      });
+    });
+    </script>
+  </section>
+
+  <footer>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+    <p>&copy; 2025 AARTI'S ART GALLARY . All rights reserved.</p>
+    </footer>
+  <script src="script/script.js"></script>
+    <script>
+// Hide "Add Painting" link for non-admins
+document.addEventListener('DOMContentLoaded', function() {
+  const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+  const addPaintingLink = document.querySelector('a[href="add_painting.html"]');
+  if (addPaintingLink && (!user || user.email.toLowerCase() !== 'admin@gmail.com')) {
+    addPaintingLink.style.display = 'none';
+  }
+});
+</script>
+<div class="painting-card">
+  <img src="images/sunset-serenity.jpg" alt="Sunset Serenity">
+  <h3>Sunset Serenity</h3>
+  <p>Price: ₹12,500</p>
+  <button onclick="buyPainting('Sunset Serenity', 12500)">Buy Now</button>
+</div>
+
+<script>
+function buyPainting(item, price) {
+  const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+  if (!user) {
+    alert('Please log in to buy a painting.');
+    window.location.href = 'login.html';
+    return;
+  }
+  let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+  const order = {
+    id: 'ART' + (orders.length + 1).toString().padStart(4, '0'),
+    email: user.email,
+    item: item,
+    price: price,
+    date: new Date().toLocaleDateString()
+  };
+  orders.push(order);
+  localStorage.setItem('orders', JSON.stringify(orders));
+  alert('Thank you for your purchase! Your order has been placed.');
+  // Optionally redirect to order history:
+  // window.location.href = 'order_history.html';
+}
+</script>
+</body>
+</html>

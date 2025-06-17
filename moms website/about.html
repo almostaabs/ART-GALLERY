@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | AARTI'S ART GALLARY</title>
+  <link rel="stylesheet" href="style/style.css" />
+</head>
+<body>
+  <script>
+  const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+  const addPaintingLink = document.querySelector('a[href="add_painting.html"]');
+if (addPaintingLink && (!user || user.email !== 'admin@gmail.com')) {
+    addPaintingLink.style.display = 'none';
+  }
+</script>
+  <header>
+    <nav class="navbar">
+       <h1 class="logo" style="margin:0;">
+        <a href="index.html" style="display:inline-block;">
+          <img src="images/aarti-logo.png" alt="AARTI'S ART GALLARY" style="height:110px; vertical-align:middle;">
+        </a>
+      </h1>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="add-painting.html">Add Painting</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="about">
+    <img src="images/profile.jpg" alt="Artist Profile" class="profile-img"/>
+    <div class="about-text">
+      <h2>About Me</h2>
+      <p>
+        Hello! I'm <strong>AARTI</strong>, an artist inspired by nature, people, and imagination. My journey with art began in childhood, and over the years, I've explored a variety of mediums including acrylics, watercolors, and mixed media. Each piece I create is a reflection of my emotions and the world around me.
+      </p>
+      <p>
+        My work is characterized by vibrant colors, bold brushstrokes, and a deep connection to the stories behind each subject. I believe that art is not just something to be seen, but something to be felt and experienced.
+      </p>
+      <ul class="about-highlights">
+        <li><strong>Mediums:</strong> Acrylics, Watercolors, Mixed Media</li>
+        <li><strong>Favorite Subjects:</strong> Landscapes, Portraits, Abstracts</li>
+        <li><strong>Exhibitions:</strong> Local galleries, online showcases, and community events</li>
+        <li><strong>Mission:</strong> To inspire others and bring joy through art</li>
+      </ul>
+      <blockquote>
+        <em>"Art enables us to find ourselves and lose ourselves at the same time." – Thomas Merton</em>
+      </blockquote>
+      <a href="gallery.html" class="btn">View My Gallery</a>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <h3>What People Say</h3>
+    <div class="testimonial-list">
+      <div class="testimonial">
+        <p>"Aarti's art brings so much color and happiness into our home. Every piece tells a story!"</p>
+        <span>- Priya S.</span>
+      </div>
+      <div class="testimonial">
+        <p>"The attention to detail and emotion in her work is truly inspiring."</p>
+        <span>- Rahul M.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="fun-facts">
+    <h3>Fun Facts</h3>
+    <ul>
+      <li>I love painting outdoors, especially during sunrise.</li>
+      <li>My favorite color to paint with is turquoise.</li>
+      <li>I often listen to classical music while creating art.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 AARTI'S ART GALLARY. All rights reserved.</p>
+  </footer>
+    <script>
+// Hide "Add Painting" link for non-admins
+document.addEventListener('DOMContentLoaded', function() {
+  const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+  const addPaintingLink = document.querySelector('a[href="add_painting.html"]');
+  if (addPaintingLink && (!user || user.email.toLowerCase() !== 'admin@gmail.com')) {
+    addPaintingLink.style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>

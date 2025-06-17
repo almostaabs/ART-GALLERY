@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buy Painting | AARTI'S ART GALLARY</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <style>
+    .buy-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      max-width: 900px;
+      margin: 40px auto;
+      align-items: flex-start;
+    }
+    .buy-painting-details {
+      flex: 1 1 320px;
+      background: #181818;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      padding: 24px 18px;
+      max-width: 400px;
+      margin: 0 auto;
+      color: #fff;
+    }
+    .buy-painting-details img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 18px;
+    }
+    .buy-painting-details h3 {
+      margin: 0 0 8px 0;
+      color: #fff;
+    }
+    .buy-painting-details .painting-subtitle {
+      color: #b0b0b0;
+      font-size: 1rem;
+      margin-bottom: 18px;
+    }
+    .painting-meta-list {
+      list-style: none;
+      padding: 0;
+      color: #e0cfc2;
+      margin-bottom: 0;
+    }
+    .painting-meta-list li {
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+    .buy-form-container {
+      flex: 1 1 320px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      padding: 28px 22px;
+      min-width: 300px;
+      max-width: 400px;
+    }
+    .buy-form-container h3 {
+      margin-top: 0;
+      color: #b77b5b;
+      margin-bottom: 18px;
+    }
+    .buy-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .buy-form input {
+      padding: 10px;
+      border: 1px solid #e0cfc2;
+      border-radius: 6px;
+      font-size: 1rem;
+      background: #faf8f6;
+    }
+    .buy-form button {
+      background: #b77b5b;
+      color: #fff;
+      border: none;
+      padding: 12px 0;
+      border-radius: 24px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+    .buy-form button:hover {
+      background: #a05e3b;
+    }
+    .order-success {
+      background: #e6ffe6;
+      color: #2e7d32;
+      border: 1px solid #b2dfdb;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 18px;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    @media (max-width: 900px) {
+      .buy-section {
+        flex-direction: column;
+        gap: 24px;
+      }
+      .buy-painting-details, .buy-form-container {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+  const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+  const addPaintingLink = document.querySelector('a[href="add_painting.html"]');
+if (addPaintingLink && (!user || user.email !== 'admin@gmail.com')) {
+    addPaintingLink.style.display = 'none';
+  }
+</script>
+  <header>
+    <nav class="navbar">
+       <h1 class="logo" style="margin:0;">
+        <a href="index.html" style="display:inline-block;">
+          <img src="images/aarti-logo.png" alt="AARTI'S ART GALLARY" style="height:110px; vertical-align:middle;">
+        </a>
+      </h1>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="add_painting.html">Add Painting</a></li>
+        <li><a href="account.html" class="active">Account</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="buy-section">
+    <div id="painting-details" class="buy-painting-details"></div>
+    <div class="buy-form-container">
+      <h3>Enter Your Details</h3>
+      <form class="buy-form" id="buyForm" autocomplete="off">
+        <input type="text" id="firstName" placeholder="First Name" required>
+        <input type="text" id="lastName" placeholder="Last Name" required>
+        <input type="tel" id="phone" placeholder="Phone Number" pattern="^[0-9+\s()-]{7,}$" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <button type="submit">Buy Now</button>
+      </form>
+      <div id="orderSuccess" class="order-success" style="display:none;"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 AARTI'S ART GALLARY. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Get painting ID from URL
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    let painting = null;
+
+    // Try to find painting in localStorage (dynamic paintings)
+    const paintings = JSON.parse(localStorage.getItem('paintings') || '[]');
+    painting = paintings.find(p => String(p.id) === id);
+
+    // If not found, check static paintings (hardcoded)
+    if (!painting) {
+      const staticPaintings = [
+        {
+          id: "1",
+          name: "Serenity",
+          medium: "Acrylic",
+          image: "images/art1.jpg",
+          year: "2024",
+          style: "Abstract",
+          size: "Large",
+          cost: "350"
+        },
+        {
+          id: "2",
+          name: "Urban Dreams",
+          medium: "Mixed media",
+          image: "images/art2.jpg",
+          year: "2023",
+          style: "Modern",
+          size: "Medium",
+          cost: "250"
+        },
+        {
+          id: "3",
+          name: "Whispers",
+          medium: "Oil painting",
+          image: "images/art3.jpg",
+          year: "2024",
+          style: "Expressionism",
+          size: "Small",
+          cost: "400"
+        }
+        // Add more static paintings as needed
+      ];
+      painting = staticPaintings.find(p => p.id === id);
+    }
+
+    // Render painting details
+    const detailsDiv = document.getElementById('painting-details');
+    if (painting) {
+      detailsDiv.innerHTML = `
+        <img src="${painting.image}" alt="${painting.name}">
+        <div class="painting-card-body">
+          <h3>${painting.name}</h3>
+          <p class="painting-subtitle">${painting.medium} • ${painting.year || '2025'}</p>
+          <ul class="painting-meta-list">
+            <li><strong>Style:</strong> ${painting.style || '-'}</li>
+            <li><strong>Size:</strong> ${painting.size || '-'}</li>
+            <li><strong>Cost:</strong> $${painting.cost || '-'}</li>
+            <li><strong>Year:</strong> ${painting.year || '2025'}</li>
+          </ul>
+        </div>
+      `;
+    } else {
+      detailsDiv.innerHTML = `<p>Painting not found.</p>`;
+      document.querySelector('.buy-form-container').style.display = 'none';
+    }
+
+    // Handle Buy Form Submission
+    document.getElementById('buyForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Validate all fields
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+
+      if (!firstName || !lastName || !phone || !email) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      // Generate unique order ID
+      const orderId = 'ORD' + Date.now() + Math.floor(Math.random() * 1000);
+
+      // Show success message
+      document.getElementById('orderSuccess').style.display = 'block';
+      document.getElementById('orderSuccess').innerHTML = `
+        <strong>Order Placed!</strong><br>
+        Thank you, ${firstName} ${lastName}.<br>
+        Your order ID is <strong>${orderId}</strong>.
+      `;
+
+      // Optionally, clear the form
+      document.getElementById('buyForm').reset();
+    });
+  </script>
+    <script>
+// Hide "Add Painting" link for non-admins
+document.addEventListener('DOMContentLoaded', function() {
+  const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+  const addPaintingLink = document.querySelector('a[href="add_painting.html"]');
+  if (addPaintingLink && (!user || user.email.toLowerCase() !== 'admin@gmail.com')) {
+    addPaintingLink.style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>
